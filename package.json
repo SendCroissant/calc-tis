@@ -1,0 +1,42 @@
+{
+  "name": "calc-tis",
+  "version": "1.0.0",
+  "description": "TODO: add description",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --harmony ./node_modules/.bin/gulp autoreload --colors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KpyacaH/calc-tis.git"
+  },
+  "author": "Rostislav",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KpyacaH/calc-tis/issues"
+  },
+  "homepage": "https://github.com/KpyacaH/calc-tis",
+  "dependencies": {
+    "lodash": "^3.8.0",
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "browserify": "^10.1.3",
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-cached": "^1.1.0",
+    "gulp-if": "^1.2.5",
+    "gulp-jshint": "^1.10.0",
+    "gulp-react": "^3.0.1",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-util": "^3.0.4",
+    "map-stream": "0.0.5",
+    "merge-stream": "^0.1.7",
+    "text-table": "^0.2.0",
+    "through2": "^0.6.5",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "yargs": "^3.8.0"
+  }
+}
