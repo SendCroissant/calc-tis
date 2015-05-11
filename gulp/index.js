@@ -1,5 +1,9 @@
 'use strict';
 
+// TODO: separate tasks in different files
+// TODO: separate copy html fron lib in other task with watching
+// TODO: lint "data" directory 
+
 const PATH_DIST = 'dist';
 const PATH_LIB = 'lib';
 const PATH_LIB_ALL = PATH_LIB + '/**';
@@ -15,7 +19,7 @@ const PATH_WATCH_FOR_COMPILE = [
   PATH_SRC_ALL
 ];
 const PATH_WATCH_FOR_REBUNDLE = [
-  PATH_LIB_ALL_JS
+  PATH_LIB_ALL
 ];
 const PATH_LINT = PATH_LIB_ALL_JS;
 
@@ -68,7 +72,9 @@ function bundleTask (done) {
       done();
     });
   } else {
-    return resultStream;
+    return resultStream.on('end', function () {
+      logMessage('Build complete\n');
+    });
   }
 }
 
