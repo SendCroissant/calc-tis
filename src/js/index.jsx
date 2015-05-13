@@ -2,9 +2,6 @@
 
 var React = require('react');
 
-var TisApp = require('./components/TisApp');
+var App = require('./components/App');
 
-React.render(
-  <TisApp />,
-  document.getElementById('root')
-);
+React.render(<App />, document.getElementById('root'));
