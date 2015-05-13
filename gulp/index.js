@@ -3,6 +3,7 @@
 // TODO: separate tasks in different files
 // TODO: separate copy html fron lib in other task with watching
 // TODO: lint "data" directory 
+// TODO: add cli comand to restart gulp while it is running
 
 const PATH_DIST = 'dist';
 const PATH_LIB = 'lib';
@@ -11,6 +12,8 @@ const PATH_SRC = 'src';
 const PATH_SRC_ALL = PATH_SRC + '/**';
 const PATH_LIB_ALL_JS = PATH_LIB_ALL + '/*.js';
 const PATH_LIB_ALL_COPY = PATH_LIB_ALL + '/*.html';
+const PATH_VENDOR_ALL = "vendor/**/*";
+const PATH_DATA_ALL = "data/**/*";
 const PATH_GULP_ALL = [
   'gulpfile.js',
   'gulp/**'
@@ -22,6 +25,11 @@ const PATH_WATCH_FOR_REBUNDLE = [
   PATH_LIB_ALL
 ];
 const PATH_LINT = PATH_LIB_ALL_JS;
+
+const PATH_STATIC_ALL = [
+  PATH_VENDOR_ALL,
+  PATH_DATA_ALL
+];
 
 const browserifyOpts = {
   entries: ['./lib/js/index.js'],
@@ -85,6 +93,11 @@ function compileTask () {
     .pipe(cache('compile'))
     .pipe(gulpif('*.jsx', react()))
     .pipe(gulp.dest(PATH_LIB));
+}
+
+function copyStaticTask () {
+  return gulp.src(PATH_STATIC_ALL, {base: '.'})
+    .pipe(gulp.dest(PATH_DIST));
 }
 
 function fileStream (filename, contents) {
@@ -185,14 +198,15 @@ function watchGulpReloadTask () {
   gulp.watch(PATH_GULP_ALL, ['gulp-reload']);
 }
 
-gulp.task('build', ['bundle']);
+gulp.task('build', ['bundle', 'copy static']);
 gulp.task('bundle', ['lint-source'], bundleTask);
 gulp.task('clean', refreshDirectory([PATH_LIB, PATH_DIST]));
 gulp.task('compile', ['clean'], compileTask);
+gulp.task('copy static', ['clean'], copyStaticTask);
 gulp.task('default', ['watch-for-rebundle']);
 gulp.task('autoreload', ['gulp-reload'], watchGulpReloadTask);
 gulp.task('gulp-reload', ['lint-gulp'], gulpReloadTask());
 gulp.task('lint-gulp', lintGulpTask);
 gulp.task('lint-source', ['compile'], lintSourceTask);
 gulp.task('watch-for-compile', ['lint-source'], watchForCompile);
-gulp.task('watch-for-rebundle', ['watch-for-compile'], watchForRebundle);
+gulp.task('watch-for-rebundle', ['watch-for-compile', 'copy static'], watchForRebundle);
