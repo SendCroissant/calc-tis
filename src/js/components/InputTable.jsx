@@ -1,24 +1,28 @@
 'use strict';
 
 var _ = require('lodash');
+var InputActions = require('../actions/InputActions');
 var React = require('react');
-// var TodoActions = require('../actions/TodoActions');
-// var TodoItem = require('./TodoItem.react');
+
+var ReactArrayOf = React.PropTypes.arrayOf;
+var ReactNumber = React.PropTypes.number;
 
 var InputTable = React.createClass({
 
   propTypes: {
-    currentVariant: React.PropTypes.number.isRequired,
-    input: React.PropTypes.object.isRequired,
-    variants: React.PropTypes.array.isRequired
+    currentVariant: ReactNumber.isRequired,
+    input: React.PropTypes.shape({
+      ats: ReactArrayOf(ReactNumber.isRequired).isRequired,
+      inet: ReactArrayOf(ReactNumber.isRequired).isRequired,
+      m2: ReactNumber.isRequired,
+    }).isRequired,
+    variants: ReactArrayOf(ReactNumber.isRequired).isRequired
   },
 
   /**
    * @return {object}
    */
   render: function() {
-    console.warn(this.props.input);
-
     var currentVariant = this.props.currentVariant;
     var ats = this.props.input.ats;
     var inet = this.props.input.inet;
@@ -30,56 +34,52 @@ var InputTable = React.createClass({
     var inetValues = [];
 
     _.forEach(ats, function (item, index) {
-      atsIndexes.push(<th key={index}>{index + 1}</th>);
-      atsValues.push(<td key={index}>{item}</td>);
+      atsIndexes.push(<th className="text-center" key={index}>{index + 1}</th>);
+      atsValues.push(<td className="text-center" key={index}>{item}</td>);
     });
 
     _.forEach(inet, function (item, index) {
-      inetIndexes.push(<th key={index}>{index + 1}</th>);
-      inetValues.push(<td key={index}>{item}</td>);
+      inetIndexes.push(<th className="text-center" key={index}>{index + 1}</th>);
+      inetValues.push(<td className="text-center" key={index}>{item}</td>);
     });
 
+    var options = _.map(this.props.variants, function (item) {
+      return <option key={item}>{item}</option>;
+    });
+    
     return (
-      <table className="table table-bordered table-striped">
-        <tr>
-          <th rowSpan={2}>Варіант</th>
-          <th colSpan={ats.length}>Параметри АТС мережі (кількість абонентів)</th>
-          <th colSpan={inet.length}>Швидкість для Інтернету (Гбіт/с)</th>
-          <th>для СЗРО</th>
+      <table className="table table-bordered">
+        <tr className="warning">
+          <th className="text-center" rowSpan={2}>Варіант</th>
+          <th className="text-center" colSpan={ats.length}>Параметри АТС мережі (кількість абонентів)</th>
+          <th className="text-center" colSpan={inet.length}>Швидкість для Інтернету (Гбіт/с)</th>
+          <th className="text-center" >для СЗРО</th>
         </tr>
-        <tr>
+        <tr className="warning">
           {atsIndexes}
           {inetIndexes}
-          <th>m<sub>2</sub></th>
+          <th className="text-center" >m<sub>2</sub></th>
         </tr>
         <tr>
-          <td>{currentVariant}</td>
+          <td className="text-center">
+            <select className="form-control" value={currentVariant} onChange={this._handleChange}>
+              {options}
+            </select>
+          </td>
           {atsValues}
           {inetValues}
-          <td>{m2}</td>
+          <td className="text-center">{m2}</td>
         </tr>
       </table>
     );
-    // return (
-    //   <section id="main">
-    //     <input
-    //       id="toggle-all"
-    //       type="checkbox"
-    //       onChange={this._onToggleCompleteAll}
-    //       checked={this.props.areAllComplete ? 'checked' : ''}
-    //     />
-    //     <label htmlFor="toggle-all">Mark all as complete</label>
-    //     <ul id="todo-list">{todos}</ul>
-    //   </section>
-    // );
   },
 
   /**
-   * Event handler to mark all TODOs as complete
+   * Event handler to change current variant
    */
-  // _onToggleCompleteAll: function() {
-  //   TodoActions.toggleCompleteAll();
-  // }
+  _handleChange: function(event) {
+    InputActions.changeCurrent(Number(event.target.value));
+  }
 
 });
 
