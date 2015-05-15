@@ -10,6 +10,9 @@ var InputConstants = require('../constants/InputConstants');
 
 var CHANGE_EVENT = 'change';
 
+var stubStorage = {};
+stubStorage.getItem = stubStorage.setItem = _.noop;
+
 function InputStore(storage) {
   EventEmitter.call(this);
 
@@ -87,7 +90,7 @@ InputStore.prototype.setCurrent = function(newVariant) {
   this._storage.setItem(LS_KEY + 'current', newVariant);
 };
 
-var instance = new InputStore(window.localStorage);
+var instance = new InputStore(window.localStorage || stubStorage);
 
 // Register callback to handle all updates
 AppDispatcher.register(function(action) {
