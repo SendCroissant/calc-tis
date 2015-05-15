@@ -1,5 +1,7 @@
 'use strict';
 
+const LS_KEY = 'calc-tis-input:';
+
 var _ = require('lodash');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
@@ -8,8 +10,10 @@ var InputConstants = require('../constants/InputConstants');
 
 var CHANGE_EVENT = 'change';
 
-function InputStore() {
+function InputStore(storage) {
   EventEmitter.call(this);
+
+  this._storage = storage;
 
   this.readWindowData();
 }
@@ -56,7 +60,15 @@ InputStore.prototype.getVariants = function() {
 InputStore.prototype.readWindowData = function() {
   this._params = window.AppDataParams.data;
   this._variants = _.map(Object.keys(this._params), Number);
-  this._current = this._variants.length && this._variants[0] || null;
+
+  var current = Number(this._storage.getItem(LS_KEY + 'current'));
+  var isInvalidCurrent = isNaN(current) || (typeof this._params[current] === 'undefined');
+
+  if (isInvalidCurrent) {
+    current = this._variants.length && this._variants[0] || null;
+  }
+
+  this.setCurrent(current);
 };
 
 /**
@@ -72,9 +84,10 @@ InputStore.prototype.removeChangeListener = function(callback) {
  */
 InputStore.prototype.setCurrent = function(newVariant) {
   this._current = newVariant;
+  this._storage.setItem(LS_KEY + 'current', newVariant);
 };
 
-var instance = new InputStore();
+var instance = new InputStore(window.localStorage);
 
 // Register callback to handle all updates
 AppDispatcher.register(function(action) {
