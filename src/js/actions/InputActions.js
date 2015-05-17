@@ -7,6 +7,15 @@ var InputConstants = require('../constants/InputConstants');
 var InputActions = {
 
   /**
+   * @param  {number} newValue
+   */
+  changeCitiAbonCoef: function(newValue) {
+    AppDispatcher.dispatch({
+      actionType: InputConstants.CHANGE_CITI_ABON_COEF,
+      newValue: newValue
+    });
+  },
+  /**
    * @param  {number} newVariant
    */
   changeCurrent: function(newVariant) {

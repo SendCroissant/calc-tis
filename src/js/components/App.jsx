@@ -3,23 +3,45 @@
 // var MainSection = require('./MainSection.react');
 var React = require('react');
 var InputStore = require('../stores/InputStore');
-var InputTable = require('./InputTable');
+var InputView = require('./Input');
+var InterstationLoadIntensitiesView = require('./InterstationLoadIntensities');
+
+var calculateInterstationLoadIntensities = require('../calculations/interstation-load-intensities');
+var calculateInterstationPhoneLoads = require('../calculations/interstation-phone-loads');
 
 /**
  * Retrieve the current Input data from the InputStore
  */
-function getInputState() {
+function getInput() {
   return {
     currentVariant: InputStore.getCurrent(),
-    input: InputStore.getCurrentVariant(),
+    data: InputStore.getCurrentVariant(),
     variants: InputStore.getVariants()
   };
+}
+
+function getAppState () {
+  var $ = {};
+  $.input = getInput();
+  $.interstationLoadIntensities = calculateInterstationLoadIntensities(
+    $.input.data.abonents,
+    $.input.data.citiAbonCoef
+  );
+  $.nterstationPhoneLoads = calculateInterstationPhoneLoads($.interstationLoadIntensities);
+
+  // for (var key in $) {
+  //   console.log(key + ':', JSON.stringify($[key], '', 4));
+  // }
+  // key = 'interstationLoadIntensities';
+  // console.log(key + ':', JSON.stringify($[key], '', 4));
+
+  return $;
 }
 
 var App = React.createClass({
 
   getInitialState: function() {
-    return getInputState();
+    return getAppState();
   },
 
   componentDidMount: function() {
@@ -34,9 +56,12 @@ var App = React.createClass({
    * @return {object}
    */
   render: function() {
+    // console.warn(this.state);
+
   	return (
       <div className="container">
-        <InputTable {...this.state}/>
+        <InputView {...this.state.input}/>
+        <InterstationLoadIntensitiesView data={this.state.interstationLoadIntensities}/>
         {/*<Header />
                 <MainSection
                   allTiss={this.state.allTiss}
@@ -50,7 +75,7 @@ var App = React.createClass({
    * Event handler for 'change' events coming from the InputStore
    */
   _onChange: function() {
-    this.setState(getInputState());
+    this.setState(getAppState());
   }
 
 });

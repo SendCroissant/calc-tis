@@ -2,21 +2,28 @@
 
 // TODO: separate tasks in different files
 // TODO: separate copy html fron lib in other task with watching
-// TODO: lint "data" directory 
+// TODO: lint "data" directory
 // TODO: add cli comand to restart gulp while it is running
+// TODO: add plunmer or some other error handling to repeat watched action after error
 
+const PATH_DATA = 'data';
 const PATH_DIST = 'dist';
 const PATH_LIB = 'lib';
-const PATH_LIB_ALL = PATH_LIB + '/**';
 const PATH_SRC = 'src';
-const PATH_SRC_ALL = PATH_SRC + '/**';
+const PATH_VENDOR = 'vendor';
+
+const PATH_LIB_ALL = PATH_LIB + '/**';
+const PATH_SRC_ALL = PATH_SRC + '/**/*';
 const PATH_LIB_ALL_JS = PATH_LIB_ALL + '/*.js';
-const PATH_LIB_ALL_COPY = PATH_LIB_ALL + '/*.html';
-const PATH_VENDOR_ALL = "vendor/**/*";
-const PATH_DATA_ALL = "data/**/*";
+const PATH_VENDOR_ALL = PATH_VENDOR + "/**/*";
+const PATH_DATA_ALL = PATH_DATA + "/**/*";
 const PATH_GULP_ALL = [
   'gulpfile.js',
   'gulp/**'
+];
+const PATH_LIB_ALL_COPY = [
+  PATH_LIB + '/css/**/*',
+  PATH_LIB_ALL + '/*.html'
 ];
 const PATH_WATCH_FOR_COMPILE = [
   PATH_SRC_ALL
@@ -67,8 +74,9 @@ function bundleTask (done) {
         .on('error', gutil.log)
     .pipe(sourcemaps.write('./'));
 
-  var copyStream = gulp.src(PATH_LIB_ALL_COPY)
+  var copyStream = gulp.src(PATH_LIB_ALL_COPY, {base: PATH_LIB})
     .pipe(filterEmptyDirs())
+    // .pipe(filelog('bundle-copy'))
     .pipe(cache('bundle-copy'));
 
   var resultStream = merge(bowserifyStream, copyStream)
@@ -97,7 +105,8 @@ function compileTask () {
 
 function copyStaticTask () {
   return gulp.src(PATH_STATIC_ALL, {base: '.'})
-    .pipe(gulp.dest(PATH_DIST));
+  .pipe(cache('copy-static'))
+  .pipe(gulp.dest(PATH_DIST));
 }
 
 function fileStream (filename, contents) {
@@ -202,7 +211,7 @@ gulp.task('build', ['bundle', 'copy static']);
 gulp.task('bundle', ['lint-source'], bundleTask);
 gulp.task('clean', refreshDirectory([PATH_LIB, PATH_DIST]));
 gulp.task('compile', ['clean'], compileTask);
-gulp.task('copy static', ['clean'], copyStaticTask);
+gulp.task('copy static', ['clean', 'compile'], copyStaticTask);
 gulp.task('default', ['watch-for-rebundle']);
 gulp.task('autoreload', ['gulp-reload'], watchGulpReloadTask);
 gulp.task('gulp-reload', ['lint-gulp'], gulpReloadTask());

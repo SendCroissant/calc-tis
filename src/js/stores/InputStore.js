@@ -19,6 +19,8 @@ function InputStore(storage) {
   this._storage = storage;
 
   this.readWindowData();
+  this.initCurrent();
+  this.initCitiAbonCoef();
 }
 inherits(InputStore, EventEmitter);
 
@@ -34,6 +36,14 @@ InputStore.prototype.emitChange = function() {
 };
 
 /**
+ * Get citizens-abonents coefficient.
+ * @return {object}
+ */
+InputStore.prototype.getCitiAbonCoef = function() {
+  return Number(this._citiAbonCoef);
+};
+
+/**
  * Get the current variant number.
  * @return {object}
  */
@@ -46,7 +56,14 @@ InputStore.prototype.getCurrent = function() {
  * @return {object}
  */
 InputStore.prototype.getCurrentVariant = function() {
-  return this._params[this.getCurrent()];
+  var params = this._params[this.getCurrent()];
+
+  return {
+    abonents: params.ats_abons,
+    inet: params.inet,
+    m2: params.m2,
+    citiAbonCoef: this.getCitiAbonCoef()
+  };
 };
 
 /**
@@ -58,20 +75,25 @@ InputStore.prototype.getVariants = function() {
 };
 
 /**
- * Read inpur data from window.AppDataParams
+ * Read "citiAbonCoef" value from storage.
+ */
+InputStore.prototype.initCitiAbonCoef = function() {
+  this.setCitiAbonCoef(this._storage.getItem(LS_KEY + 'citiAbonCoef'));
+};
+
+/**
+ * Read "current" value from storage.
+ */
+InputStore.prototype.initCurrent = function() {
+  this.setCurrent(this._storage.getItem(LS_KEY + 'current'));
+};
+
+/**
+ * Read input data from window.AppDataParams.
  */
 InputStore.prototype.readWindowData = function() {
   this._params = window.AppDataParams.data;
   this._variants = _.map(Object.keys(this._params), Number);
-
-  var current = Number(this._storage.getItem(LS_KEY + 'current'));
-  var isInvalidCurrent = isNaN(current) || (typeof this._params[current] === 'undefined');
-
-  if (isInvalidCurrent) {
-    current = this._variants.length && this._variants[0] || null;
-  }
-
-  this.setCurrent(current);
 };
 
 /**
@@ -82,12 +104,51 @@ InputStore.prototype.removeChangeListener = function(callback) {
 };
 
 /**
- * Set the current variant number.
- * @param {number} newVariant
+ * Set the citizens-abonents coefficient.
+ * @param {number} value
  */
-InputStore.prototype.setCurrent = function(newVariant) {
-  this._current = newVariant;
-  this._storage.setItem(LS_KEY + 'current', newVariant);
+InputStore.prototype.setCitiAbonCoef = function(value) {
+  value = Number(value);
+
+  if (isNaN(value)) {
+    value = 3;
+  }
+
+  this._citiAbonCoef = value;
+  this._storage.setItem(LS_KEY + 'citiAbonCoef', value);
+};
+
+/**
+ * Set the current variant number.
+ * @param {number} value
+ */
+InputStore.prototype.setCurrent = function(value) {
+  value = Number(value);
+
+  var isInvalidValue = isNaN(value) || (typeof this._params[value] === 'undefined');
+
+  if (isInvalidValue) {
+    value = this._variants.length && this._variants[0] || null;
+  }
+
+  this._current = value;
+  this._storage.setItem(LS_KEY + 'current', value);
+};
+
+/**
+ * Set the current variant number.
+ * @param {number} value
+ */
+InputStore.prototype.setCurrent = function(value) {
+  value = Number(value);
+  var isInvalidValue = isNaN(value) || (typeof this._params[value] === 'undefined');
+
+  if (isInvalidValue) {
+    value = this._variants.length && this._variants[0] || null;
+  }
+
+  this._current = value;
+  this._storage.setItem(LS_KEY + 'current', value);
 };
 
 var instance = new InputStore(window.localStorage || stubStorage);
@@ -96,12 +157,18 @@ var instance = new InputStore(window.localStorage || stubStorage);
 AppDispatcher.register(function(action) {
 
   switch(action.actionType) {
+    case InputConstants.CHANGE_CITI_ABON_COEF:
+      if (instance.getCitiAbonCoef() !== action.newValue) {
+        instance.setCitiAbonCoef(action.newValue);
+        instance.emitChange();
+      }
+    break;
     case InputConstants.CHANGE_CURRENT:
       if (instance.getCurrent() !== action.newVariant) {
         instance.setCurrent(action.newVariant);
         instance.emitChange();
       }
-      break;
+    break;
 
     default:
       // no op

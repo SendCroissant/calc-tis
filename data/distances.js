@@ -12,4 +12,4 @@ window.AppDataDistances = {
       [6.5,  8  ,  10 ,  11.5,  6.5,  10.5,  8]
     ]
   }
-}
+};
