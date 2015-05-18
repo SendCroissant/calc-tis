@@ -8,10 +8,12 @@ var InputView = require('./Input');
 var InterstationLoadIntensitiesView = require('./InterstationLoadIntensities');
 var InterstationPhoneLoadsView = require('./InterstationPhoneLoads');
 var DesignedInterstationPhoneLoadsView = require('./DesignedInterstationPhoneLoads');
+var FixedCommunicationInterstationView = require('./FixedCommunicationInterstation');
 
 var calculateInterstationLoadIntensities = require('../calculations/interstation-load-intensities');
 var calculateInterstationPhoneLoads = require('../calculations/interstation-phone-loads');
 var calculateDesignedInterstationPhoneLoads = require('../calculations/designed-interstation-phone-loads');
+var calculateFixedCommunicationInterstation = require('../calculations/fixed-communication-interstation');
 
 /**
  * Retrieve the current Input data from the InputStore
@@ -30,12 +32,7 @@ function getAppState () {
   $.interstationLoadIntensities = calculateInterstationLoadIntensities($.input.data);
   $.interstationPhoneLoads = calculateInterstationPhoneLoads($.interstationLoadIntensities);
   $.designedInterstationPhoneLoadsView = calculateDesignedInterstationPhoneLoads($.interstationPhoneLoads);
-
-  // for (var key in $) {
-  //   console.log(key + ':', JSON.stringify($[key], '', 4));
-  // }
-  // key = 'interstationLoadIntensities';
-  // console.log(key + ':', JSON.stringify($[key], '', 4));
+  $.fixedCommunicationInterstation = calculateFixedCommunicationInterstation($.designedInterstationPhoneLoadsView);
 
   return $;
 }
@@ -66,11 +63,7 @@ var App = React.createClass({
         <InterstationLoadIntensitiesView data={this.state.interstationLoadIntensities}/>
         <InterstationPhoneLoadsView data={this.state.interstationPhoneLoads}/>
         <DesignedInterstationPhoneLoadsView data={this.state.designedInterstationPhoneLoadsView}/>
-        {/*<Header />
-                <MainSection
-                  allTiss={this.state.allTiss}
-                  areAllComplete={this.state.areAllComplete}
-                />*/}
+        <FixedCommunicationInterstationView data={this.state.fixedCommunicationInterstation}/>
       </div>
   	);
   },
