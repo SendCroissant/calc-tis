@@ -135,22 +135,6 @@ InputStore.prototype.setCurrent = function(value) {
   this._storage.setItem(LS_KEY + 'current', value);
 };
 
-/**
- * Set the current variant number.
- * @param {number} value
- */
-InputStore.prototype.setCurrent = function(value) {
-  value = Number(value);
-  var isInvalidValue = isNaN(value) || (typeof this._params[value] === 'undefined');
-
-  if (isInvalidValue) {
-    value = this._variants.length && this._variants[0] || null;
-  }
-
-  this._current = value;
-  this._storage.setItem(LS_KEY + 'current', value);
-};
-
 var instance = new InputStore(window.localStorage || stubStorage);
 
 // Register callback to handle all updates

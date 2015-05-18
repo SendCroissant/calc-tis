@@ -113,9 +113,7 @@ var Input = React.createClass({
     var value = Number(event.target.value);
 
     if (event.target.value === value.toString()) {
-
-    InputActions.changeCitiAbonCoef(value);
-      return;
+      InputActions.changeCitiAbonCoef(value);
     }
 
     this.setState({
