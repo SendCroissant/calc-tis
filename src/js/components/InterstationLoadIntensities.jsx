@@ -44,7 +44,7 @@ var InterstationLoadIntensities = React.createClass({
 
     return (
       <TableView
-        title="Табл. 1.3 Результати розрахунків міжстанційної інтенсивності навантаження"
+        title="Результaти розрaхунків міжcтaнційної інтенcивноcті нaвaнтaження"
         data={data}
         head={head}
         labels={labels} />
