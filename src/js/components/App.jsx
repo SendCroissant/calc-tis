@@ -3,8 +3,10 @@
 // var MainSection = require('./MainSection.react');
 var React = require('react');
 var InputStore = require('../stores/InputStore');
+
 var InputView = require('./Input');
 var InterstationLoadIntensitiesView = require('./InterstationLoadIntensities');
+var InterstationPhoneLoadsView = require('./InterstationPhoneLoads');
 
 var calculateInterstationLoadIntensities = require('../calculations/interstation-load-intensities');
 var calculateInterstationPhoneLoads = require('../calculations/interstation-phone-loads');
@@ -59,6 +61,7 @@ var App = React.createClass({
       <div className="container">
         <InputView {...this.state.input}/>
         <InterstationLoadIntensitiesView data={this.state.interstationLoadIntensities}/>
+        <InterstationPhoneLoadsView data={this.state.interstationPhoneLoads}/>
         {/*<Header />
                 <MainSection
                   allTiss={this.state.allTiss}

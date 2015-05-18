@@ -28,6 +28,8 @@ var InterstationLoadIntensities = React.createClass({
 
     var rows = _.map(this.props.data, function (row, index) {
       var rowContent = _.map(row, function (item, key) {
+        if (isNaN(item))
+          return <td className="text-center active" key={key}></td>;
         return <td className="text-center" key={key}>{item}</td>;
       });
 
