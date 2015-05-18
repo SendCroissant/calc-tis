@@ -8,10 +8,13 @@ var _ = require('lodash');
 
 /**
  * Розрахунок міжстанційних телефонних навантажень
- * @param {object} {Yнадх, Yвсс, Yззл, Yзлм}
+ * @param {object} data
+ * @param {array} data.Yнадх
+ * @param {array} data.Yвсс
+ * @param {array} data.Yззл
+ * @param {array} data.Yзлм
 
- * @param {number} citiAbonCoef
- * @return {array(array)} Yi_j 
+ * @return {array(array)} Yi_j
  */
 module.exports = function calculateInterstationPhoneLoads (data) {
   var Yнадх_сум = _.sum(data.Yнадх);
@@ -37,7 +40,7 @@ module.exports = function calculateInterstationPhoneLoads (data) {
   });
   Yi_j.push(rowSum);
 
-  // console.warn(Yнадх_сум, Yi_j);
+  console.warn(Yнадх_сум, Yi_j);
 
   return Yi_j;
 };

@@ -23,11 +23,8 @@ function getInput() {
 function getAppState () {
   var $ = {};
   $.input = getInput();
-  $.interstationLoadIntensities = calculateInterstationLoadIntensities(
-    $.input.data.abonents,
-    $.input.data.citiAbonCoef
-  );
-  $.nterstationPhoneLoads = calculateInterstationPhoneLoads($.interstationLoadIntensities);
+  $.interstationLoadIntensities = calculateInterstationLoadIntensities($.input.data);
+  $.interstationPhoneLoads = calculateInterstationPhoneLoads($.interstationLoadIntensities);
 
   // for (var key in $) {
   //   console.log(key + ':', JSON.stringify($[key], '', 4));

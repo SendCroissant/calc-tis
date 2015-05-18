@@ -39,12 +39,15 @@ var InterstationLoadIntensities = React.createClass({
    * @return {object}
    */
   render: function() {
+    var data = convertData(this.props.data);
+    var labels = _.range(1, data.length + 1);
+
     return (
       <TableView
         title="Табл. 1.3 Результати розрахунків міжстанційної інтенсивності навантаження"
-        data={convertData(this.props.data)}
+        data={data}
         head={head}
-        labels={[]} />
+        labels={labels} />
     );
   }
 

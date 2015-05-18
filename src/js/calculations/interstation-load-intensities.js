@@ -137,20 +137,21 @@ function calcYнадх (Yвих, Yвсс, Yвн, Yззл) {
 
 /**
  * Розрахунок міжстанційної інтенсивності навантаження
- * @param {array} abonents
- * @param {number} citiAbonCoef
+ * @param {obect} data
+ * @param {array} data.abonents
+ * @param {number} data.citiAbonCoef
  * @return {object} {Y, Yвих, Yвсс, Yззл, Yзлм, Kвн, Yвн, Yнадх}
  */
-module.exports = function calculateInterstationLoadIntensities (abonents, citiAbonCoef) {
-  var Y        = calcY(abonents);
+module.exports = function calculateInterstationLoadIntensities (data) {
+  var Y        = calcY(data.abonents);
   var Yвих     = calcYвих(Y);
   var η        = calc_η(Yвих);
   var Kвн      = _.map(η, calcKвн);
   var Yвн      = calcYвн(Yвих, Kвн);
   var Yвсс     = calcYвсс(Yвих);
-  var citizens = calcCitizens(abonents, citiAbonCoef);
+  var citizens = calcCitizens(data.abonents, data.citiAbonCoef);
   var Am       = calcAm(citizens);
-  var Yззл     = calcYззл(abonents, Am);
+  var Yззл     = calcYззл(data.abonents, Am);
   var Yзлм     = calcYзлм(Yззл);
   var Yнадх    = calcYнадх(Yвих, Yвсс, Yвн, Yззл);
 
