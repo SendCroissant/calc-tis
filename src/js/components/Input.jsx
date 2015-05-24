@@ -71,9 +71,11 @@ var Input = React.createClass({
           <tr className="info">
             <th className="text-center" rowSpan={2}>Варіант</th>
             <th className="text-center" colSpan={abonents.length}>
-              Параметри АТС мережі (кількість абонентів)
+              Параметри АТС мережі <nobr>(кількість абонентів)</nobr>
             </th>
-            <th className="text-center" colSpan={inet.length}>Швидкість для Інтернету (Гбіт/с)</th>
+            <th className="text-center" colSpan={inet.length}>
+              Швидкість для Інтернету <nobr>(Гбіт/с)</nobr>
+            </th>
             <th className="text-center">для СЗРО</th>
             <th className="text-center" rowSpan={2}>
               Кількість мешканців в місті в <nobr>3…4</nobr> раз більше кількості абонентів
