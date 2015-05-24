@@ -31,7 +31,7 @@ function getLoseIndex (p) {
 
  * @return {array(array)}
  */
-module.exports = function calculateFixedCommunicationInterstation (data) {
+module.exports = function calculateFixedCommunication (data) {
   var result = _.map(data.slice(0, data.length - 2), function (row) {
     var valueBCC = Number(findErlang(row[row.length - 3], indexBCC));
     var valueAMTC = Number(findErlang(row[row.length - 2], indexAMTC));

@@ -16,7 +16,7 @@ var _ = require('lodash');
 
  * @return {array(array)} Yi_j
  */
-module.exports = function calculateInterstationPhoneLoads (data) {
+module.exports = function calculatePhoneLoads (data) {
   var Yнадх_сум = _.sum(data.Yнадх);
   var Yi_j = _.map(data.Yнадх, function (Yнадх_i, i) {
     var row = _.map(data.Yнадх, function (Yнадх_j, j) {

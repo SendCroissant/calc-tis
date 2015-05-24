@@ -6,7 +6,7 @@ const labels = ['1', '2', '3', '4', '5', '6', '7', 'АМТС'];
 var React = require('react');
 var TableView = require('./TableView');
 
-var FixedCommunicationInterstation = React.createClass({
+var FixedCommunication = React.createClass({
 
   propTypes: {
     data: React.PropTypes.arrayOf(
@@ -31,4 +31,4 @@ var FixedCommunicationInterstation = React.createClass({
 
 });
 
-module.exports = FixedCommunicationInterstation;
+module.exports = FixedCommunication;

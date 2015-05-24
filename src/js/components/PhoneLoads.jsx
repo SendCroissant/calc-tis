@@ -17,7 +17,7 @@ function round (number) {
   return Math.round(number * 100) / 100;
 }
 
-var DesignedInterstationPhoneLoads = React.createClass({
+var PhoneLoads = React.createClass({
 
   propTypes: {
     data: React.PropTypes.arrayOf(
@@ -33,7 +33,7 @@ var DesignedInterstationPhoneLoads = React.createClass({
   render: function() {
     return (
       <TableView
-        title="Мaтриця розрaхункових знaчень міжcтaнційних нaвaнтaжень для cтaціонaрних телефонніх з’єднaнь"
+        title="Мaтриця міжcтaнційних телефонних нaвaнтaжень"
         data={convertData(this.props.data)}
         head={head}
         labels={labels} />
@@ -42,4 +42,4 @@ var DesignedInterstationPhoneLoads = React.createClass({
 
 });
 
-module.exports = DesignedInterstationPhoneLoads;
+module.exports = PhoneLoads;

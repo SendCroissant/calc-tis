@@ -20,7 +20,7 @@ function round (number) {
   return Math.round(number * 100) / 100;
 }
 
-var InterstationLoadIntensities = React.createClass({
+var LoadIntensities = React.createClass({
 
   propTypes: {
     data: React.PropTypes.shape({
@@ -53,4 +53,4 @@ var InterstationLoadIntensities = React.createClass({
 
 });
 
-module.exports = InterstationLoadIntensities;
+module.exports = LoadIntensities;

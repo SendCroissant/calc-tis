@@ -7,7 +7,7 @@ var ReactArray = React.PropTypes.array;
 var ReactArrayOf = React.PropTypes.arrayOf;
 var ReactNumber = React.PropTypes.number;
 
-var InterstationLoadIntensities = React.createClass({
+var LoadIntensities = React.createClass({
 
   propTypes: {
     data: ReactArrayOf(ReactArrayOf(ReactNumber.isRequired).isRequired).isRequired,
@@ -51,4 +51,4 @@ var InterstationLoadIntensities = React.createClass({
 
 });
 
-module.exports = InterstationLoadIntensities;
+module.exports = LoadIntensities;

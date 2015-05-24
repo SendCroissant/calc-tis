@@ -12,7 +12,7 @@ var _ = require('lodash');
 
  * @return {array(array)}
  */
-module.exports = function calculateDesignedInterstationPhoneLoads (data) {
+module.exports = function calculateDesignedPhoneLoads (data) {
   data = _.map(data.slice(0, data.length - 1), function (row) {
     row = _.map(row.slice(0, row.length - 1), function (Y) {
       return Y + 0.6742 * Math.sqrt(Y);

@@ -5,15 +5,15 @@ var React = require('react');
 var InputStore = require('../stores/InputStore');
 
 var InputView = require('./Input');
-var InterstationLoadIntensitiesView = require('./InterstationLoadIntensities');
-var InterstationPhoneLoadsView = require('./InterstationPhoneLoads');
-var DesignedInterstationPhoneLoadsView = require('./DesignedInterstationPhoneLoads');
-var FixedCommunicationInterstationView = require('./FixedCommunicationInterstation');
+var LoadIntensitiesView = require('./LoadIntensities');
+var PhoneLoadsView = require('./PhoneLoads');
+var DesignedPhoneLoadsView = require('./DesignedPhoneLoads');
+var FixedCommunicationView = require('./FixedCommunication');
 
-var calculateInterstationLoadIntensities = require('../calculations/interstation-load-intensities');
-var calculateInterstationPhoneLoads = require('../calculations/interstation-phone-loads');
-var calculateDesignedInterstationPhoneLoads = require('../calculations/designed-interstation-phone-loads');
-var calculateFixedCommunicationInterstation = require('../calculations/fixed-communication-interstation');
+var calculateLoadIntensities = require('../calculations/load-intensities');
+var calculatePhoneLoads = require('../calculations/phone-loads');
+var calculateDesignedPhoneLoads = require('../calculations/designed-phone-loads');
+var calculateFixedCommunication = require('../calculations/fixed-communication');
 
 /**
  * Retrieve the current Input data from the InputStore
@@ -29,10 +29,11 @@ function getInput() {
 function getAppState () {
   var $ = {};
   $.input = getInput();
-  $.interstationLoadIntensities = calculateInterstationLoadIntensities($.input.data);
-  $.interstationPhoneLoads = calculateInterstationPhoneLoads($.interstationLoadIntensities);
-  $.designedInterstationPhoneLoadsView = calculateDesignedInterstationPhoneLoads($.interstationPhoneLoads);
-  $.fixedCommunicationInterstation = calculateFixedCommunicationInterstation($.designedInterstationPhoneLoadsView);
+  $.interstationLoadIntensities = calculateLoadIntensities($.input.data);
+  $.interstationPhoneLoads = calculatePhoneLoads($.interstationLoadIntensities);
+  $.designedPhoneLoadsView = calculateDesignedPhoneLoads($.interstationPhoneLoads);
+  $.fixedCommunication = calculateFixedCommunication($.designedPhoneLoadsView);
+  $.fixedCommunication = calculateFixedCommunication($.designedPhoneLoadsView);
 
   return $;
 }
@@ -60,10 +61,10 @@ var App = React.createClass({
   	return (
       <div className="container">
         <InputView {...this.state.input}/>
-        <InterstationLoadIntensitiesView data={this.state.interstationLoadIntensities}/>
-        <InterstationPhoneLoadsView data={this.state.interstationPhoneLoads}/>
-        <DesignedInterstationPhoneLoadsView data={this.state.designedInterstationPhoneLoadsView}/>
-        <FixedCommunicationInterstationView data={this.state.fixedCommunicationInterstation}/>
+        <LoadIntensitiesView data={this.state.interstationLoadIntensities}/>
+        <PhoneLoadsView data={this.state.interstationPhoneLoads}/>
+        <DesignedPhoneLoadsView data={this.state.designedPhoneLoadsView}/>
+        <FixedCommunicationView data={this.state.fixedCommunication}/>
       </div>
   	);
   },

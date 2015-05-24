@@ -142,7 +142,7 @@ function calcYнадх (Yвих, Yвсс, Yвн, Yззл) {
  * @param {number} data.citiAbonCoef
  * @return {object} {Y, Yвих, Yвсс, Yззл, Yзлм, Kвн, Yвн, Yнадх}
  */
-module.exports = function calculateInterstationLoadIntensities (data) {
+module.exports = function calculateLoadIntensities (data) {
   var Y        = calcY(data.abonents);
   var Yвих     = calcYвих(Y);
   var η        = calc_η(Yвих);
