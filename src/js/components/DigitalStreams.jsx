@@ -6,7 +6,7 @@ const labels = ['1', '2', '3', '4', '5', '6', '7', 'АМТС'];
 var React = require('react');
 var TableView = require('./TableView');
 
-var FixedAndMobileCommunication = React.createClass({
+var DigitalStreams = React.createClass({
 
   propTypes: {
     data: React.PropTypes.arrayOf(
@@ -22,7 +22,7 @@ var FixedAndMobileCommunication = React.createClass({
   render: function() {
     return (
       <TableView
-        title="Матриця міжстанційних з'єднувальних ліній фіксованого і мобільного зв'язку"
+        title="Матриця цифрових потоків Е1 для ТЛФ фиксир. и мобильн."
         data={this.props.data}
         head={head}
         labels={labels} />
@@ -31,4 +31,4 @@ var FixedAndMobileCommunication = React.createClass({
 
 });
 
-module.exports = FixedAndMobileCommunication;
+module.exports = DigitalStreams;

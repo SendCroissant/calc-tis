@@ -10,12 +10,14 @@ var PhoneLoadsView = require('./PhoneLoads');
 var DesignedPhoneLoadsView = require('./DesignedPhoneLoads');
 var FixedCommunicationView = require('./FixedCommunication');
 var FixedAndMobileCommunicationView = require('./FixedAndMobileCommunication');
+var DigitalStreamsView = require('./DigitalStreams');
 
 var calculateLoadIntensities = require('../calculations/load-intensities');
 var calculatePhoneLoads = require('../calculations/phone-loads');
 var calculateDesignedPhoneLoads = require('../calculations/designed-phone-loads');
 var calculateFixedCommunication = require('../calculations/fixed-communication');
 var calculateFixedAndMobileCommunication = require('../calculations/fixed-mobile-communication');
+var calculateDigitalStreams = require('../calculations/digital-streams');
 
 /**
  * Retrieve the current Input data from the InputStore
@@ -36,6 +38,7 @@ function getAppState () {
   $.designedPhoneLoadsView = calculateDesignedPhoneLoads($.interstationPhoneLoads);
   $.fixedCommunication = calculateFixedCommunication($.designedPhoneLoadsView);
   $.fixedAndMobileCommunication = calculateFixedAndMobileCommunication($.fixedCommunication, $.input.data.m2);
+  $.digitalStreams = calculateDigitalStreams($.fixedAndMobileCommunication);
 
   return $;
 }
@@ -68,6 +71,7 @@ var App = React.createClass({
         <DesignedPhoneLoadsView data={this.state.designedPhoneLoadsView}/>
         <FixedCommunicationView data={this.state.fixedCommunication}/>
         <FixedAndMobileCommunicationView data={this.state.fixedAndMobileCommunication}/>
+        <DigitalStreamsView data={this.state.digitalStreams}/>
       </div>
   	);
   },
