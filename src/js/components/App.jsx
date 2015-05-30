@@ -15,6 +15,7 @@ var calculateDesignedPhoneLoads = require('../calculations/designed-phone-loads'
 var calculateFixedCommunication = require('../calculations/fixed-communication');
 var calculateFixedAndMobileCommunication = require('../calculations/fixed-mobile-communication');
 var calculateDigitalStreams = require('../calculations/digital-streams');
+var calculateDigitalStreamsInet = require('../calculations/digital-streams-inet');
 
 /**
  * Retrieve the current Input data from the InputStore
@@ -36,6 +37,7 @@ function getAppState () {
   $.fixedCommunication = calculateFixedCommunication($.designedPhoneLoadsView);
   $.fixedAndMobileCommunication = calculateFixedAndMobileCommunication($.fixedCommunication, $.input.data.m2);
   $.digitalStreams = calculateDigitalStreams($.fixedAndMobileCommunication);
+  $.digitalStreamsInet = calculateDigitalStreamsInet($.digitalStreams, $.input.data.inet);
 
   return $;
 }
@@ -58,8 +60,6 @@ var App = React.createClass({
    * @return {object}
    */
   render: function() {
-    // console.warn(this.state);
-
   	return (
       <div className="container">
         <InputView {...this.state.input}/>
@@ -79,6 +79,9 @@ var App = React.createClass({
 
         <TableView data={this.state.digitalStreams}
           title="Матриця цифрових потоків Е1 для ТЛФ фиксир. и мобильн."/>
+
+        <TableView data={this.state.digitalStreamsInet}
+          title="Матриця цифрових потоків Е1 все ТЛФ + Интернет"/>
       </div>
   	);
   },
