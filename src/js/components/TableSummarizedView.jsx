@@ -17,7 +17,7 @@ function round (number) {
   return Math.round(number * 100) / 100;
 }
 
-var PhoneLoads = React.createClass({
+var TableSummarizedView = React.createClass({
 
   propTypes: {
     data: React.PropTypes.arrayOf(
@@ -33,7 +33,7 @@ var PhoneLoads = React.createClass({
   render: function() {
     return (
       <TableView
-        title="Мaтриця міжcтaнційних телефонних нaвaнтaжень"
+        title={this.props.title}
         data={convertData(this.props.data)}
         head={head}
         labels={labels} />
@@ -42,4 +42,4 @@ var PhoneLoads = React.createClass({
 
 });
 
-module.exports = PhoneLoads;
+module.exports = TableSummarizedView;

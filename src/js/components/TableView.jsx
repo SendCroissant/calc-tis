@@ -1,9 +1,11 @@
 'use strict';
 
+const head = ['№ АТС', '1', '2', '3', '4', '5', '6', '7', 'BBC', 'АМТС'];
+const labels = ['1', '2', '3', '4', '5', '6', '7', 'АМТС'];
+
 var _ = require('lodash');
 var React = require('react');
 
-var ReactArray = React.PropTypes.array;
 var ReactArrayOf = React.PropTypes.arrayOf;
 var ReactNumber = React.PropTypes.number;
 
@@ -11,9 +13,14 @@ var LoadIntensities = React.createClass({
 
   propTypes: {
     data: ReactArrayOf(ReactArrayOf(ReactNumber.isRequired).isRequired).isRequired,
-    head: ReactArray.isRequired,
-    labels: ReactArray.isRequired,
     title: React.PropTypes.string.isRequired
+  },
+
+  getDefaultProps: function() {
+    return {
+      head  : head, 
+      labels: labels 
+    };
   },
 
   /**

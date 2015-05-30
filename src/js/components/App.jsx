@@ -6,11 +6,8 @@ var InputStore = require('../stores/InputStore');
 
 var InputView = require('./Input');
 var LoadIntensitiesView = require('./LoadIntensities');
-var PhoneLoadsView = require('./PhoneLoads');
-var DesignedPhoneLoadsView = require('./DesignedPhoneLoads');
-var FixedCommunicationView = require('./FixedCommunication');
-var FixedAndMobileCommunicationView = require('./FixedAndMobileCommunication');
-var DigitalStreamsView = require('./DigitalStreams');
+var TableView = require('./TableView');
+var TableSummarizedView = require('./TableSummarizedView');
 
 var calculateLoadIntensities = require('../calculations/load-intensities');
 var calculatePhoneLoads = require('../calculations/phone-loads');
@@ -67,11 +64,21 @@ var App = React.createClass({
       <div className="container">
         <InputView {...this.state.input}/>
         <LoadIntensitiesView data={this.state.interstationLoadIntensities}/>
-        <PhoneLoadsView data={this.state.interstationPhoneLoads}/>
-        <DesignedPhoneLoadsView data={this.state.designedPhoneLoadsView}/>
-        <FixedCommunicationView data={this.state.fixedCommunication}/>
-        <FixedAndMobileCommunicationView data={this.state.fixedAndMobileCommunication}/>
-        <DigitalStreamsView data={this.state.digitalStreams}/>
+
+        <TableSummarizedView data={this.state.interstationPhoneLoads}
+          title="Мaтриця міжcтaнційних телефонних нaвaнтaжень" />
+
+        <TableSummarizedView data={this.state.designedPhoneLoadsView}
+          title="Мaтриця розрaхункових знaчень міжcтaнційних нaвaнтaжень для cтaціонaрних телефонніх з’єднaнь" />
+
+        <TableView data={this.state.fixedCommunication}
+          title="Матриця міжстанційних з'єднувальних ліній для фіксованого зв'язку" />
+
+        <TableView data={this.state.fixedAndMobileCommunication}
+          title="Матриця міжстанційних з'єднувальних ліній фіксованого і мобільного зв'язку" />
+
+        <TableView data={this.state.digitalStreams}
+          title="Матриця цифрових потоків Е1 для ТЛФ фиксир. и мобильн."/>
       </div>
   	);
   },
