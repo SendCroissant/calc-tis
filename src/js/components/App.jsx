@@ -16,6 +16,7 @@ var calculateFixedCommunication = require('../calculations/fixed-communication')
 var calculateFixedAndMobileCommunication = require('../calculations/fixed-mobile-communication');
 var calculateDigitalStreams = require('../calculations/digital-streams');
 var calculateDigitalStreamsInet = require('../calculations/digital-streams-inet');
+var calculateDigitalStreamsReserved = require('../calculations/digital-streams-reserved');
 
 /**
  * Retrieve the current Input data from the InputStore
@@ -38,6 +39,7 @@ function getAppState () {
   $.fixedAndMobileCommunication = calculateFixedAndMobileCommunication($.fixedCommunication, $.input.data.m2);
   $.digitalStreams = calculateDigitalStreams($.fixedAndMobileCommunication);
   $.digitalStreamsInet = calculateDigitalStreamsInet($.digitalStreams, $.input.data.inet);
+  $.digitalStreamsReserved = calculateDigitalStreamsReserved($.digitalStreamsInet);
 
   return $;
 }
@@ -82,6 +84,9 @@ var App = React.createClass({
 
         <TableView data={this.state.digitalStreamsInet}
           title="Матриця цифрових потоків Е1 все ТЛФ + Интернет"/>
+
+        <TableView data={this.state.digitalStreamsReserved}
+          title="Матриця цифрових потоків всех Е1 с 30% запасом"/>
       </div>
   	);
   },
