@@ -11,11 +11,19 @@ var _ = require('lodash');
  * @return {array(array)}
  */
 module.exports = function calculateDigitalStreamsInet (data, inet) {
-  return _.map(data, function (row, index) {
+  var amtsRow = _.map(data[7], function (item, index) {
+    return  Math.ceil(item + inet[index] * k);
+  });
+
+  data = _.map(data.slice(0, 7), function (row, index) {
     row = row.slice();
 
     row[8] = Math.ceil(row[8] + inet[index] * k);
 
     return row;
   });
+
+  data.push(amtsRow);
+
+  return data;
 };
