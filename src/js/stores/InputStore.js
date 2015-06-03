@@ -57,12 +57,20 @@ InputStore.prototype.getCurrent = function() {
  */
 InputStore.prototype.getCurrentVariant = function() {
   var params = this._params[this.getCurrent()];
+  var schema = this._schemas[this.getCurrent()];
+  var picDescription = this._picDescriptions[schema.pic];
 
   return {
     abonents: params.ats_abons,
     inet: params.inet,
     m2: params.m2,
-    citiAbonCoef: this.getCitiAbonCoef()
+    citiAbonCoef: this.getCitiAbonCoef(),
+    schema: {
+      ops: schema.ops,
+      amts: schema.amts,
+      vss: schema.vss,
+      config: picDescription
+    }
   };
 };
 
@@ -94,6 +102,8 @@ InputStore.prototype.initCurrent = function() {
 InputStore.prototype.readWindowData = function() {
   this._params = window.AppDataParams.data;
   this._variants = _.map(Object.keys(this._params), Number);
+  this._schemas = window.AppDataSchemas.data;
+  this._picDescriptions = window.AppPicDescriptions.data;
 };
 
 /**

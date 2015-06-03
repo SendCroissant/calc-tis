@@ -9,7 +9,7 @@ var React = require('react');
 var ReactArrayOf = React.PropTypes.arrayOf;
 var ReactNumber = React.PropTypes.number;
 
-var LoadIntensities = React.createClass({
+var TableView = React.createClass({
 
   propTypes: {
     data: ReactArrayOf(ReactArrayOf(ReactNumber.isRequired).isRequired).isRequired,
@@ -58,4 +58,4 @@ var LoadIntensities = React.createClass({
 
 });
 
-module.exports = LoadIntensities;
+module.exports = TableView;

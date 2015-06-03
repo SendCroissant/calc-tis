@@ -8,6 +8,7 @@ var InputView = require('./Input');
 var LoadIntensitiesView = require('./LoadIntensities');
 var TableView = require('./TableView');
 var TableSummarizedView = require('./TableSummarizedView');
+var SchemaStreamsView = require('./SchemaStreamsView');
 
 var calculateLoadIntensities = require('../calculations/load-intensities');
 var calculatePhoneLoads = require('../calculations/phone-loads');
@@ -17,6 +18,7 @@ var calculateFixedAndMobileCommunication = require('../calculations/fixed-mobile
 var calculateDigitalStreams = require('../calculations/digital-streams');
 var calculateDigitalStreamsInet = require('../calculations/digital-streams-inet');
 var calculateDigitalStreamsReserved = require('../calculations/digital-streams-reserved');
+var calculateDigitalStreamsInterstation = require('../calculations/digital-streams-interstation');
 
 /**
  * Retrieve the current Input data from the InputStore
@@ -40,6 +42,7 @@ function getAppState () {
   $.digitalStreams = calculateDigitalStreams($.fixedAndMobileCommunication);
   $.digitalStreamsInet = calculateDigitalStreamsInet($.digitalStreams, $.input.data.inet);
   $.digitalStreamsReserved = calculateDigitalStreamsReserved($.digitalStreamsInet);
+  $.digitalStreamsInterstation = calculateDigitalStreamsInterstation($.digitalStreamsReserved, $.input.data.schema);
 
   return $;
 }
@@ -80,13 +83,15 @@ var App = React.createClass({
           title="Матриця міжстанційних з'єднувальних ліній фіксованого і мобільного зв'язку" />
 
         <TableView data={this.state.digitalStreams}
-          title="Матриця цифрових потоків Е1 для ТЛФ фиксир. и мобильн."/>
+          title="Матриця цифрових потоків Е1 для ТЛФ фиксир. и мобильн." />
 
         <TableView data={this.state.digitalStreamsInet}
-          title="Матриця цифрових потоків Е1 все ТЛФ + Интернет"/>
+          title="Матриця цифрових потоків Е1 все ТЛФ + Интернет" />
 
         <TableView data={this.state.digitalStreamsReserved}
-          title="Матриця цифрових потоків всех Е1 с 30% запасом"/>
+          title="Матриця цифрових потоків всех Е1 с 30% запасом" />
+
+        <SchemaStreamsView data={this.state.digitalStreamsInterstation} />
       </div>
   	);
   },

@@ -4,3 +4,6 @@ select.form-control {
 .common-row label {
   font-weight: normal;
 }
+.table .vertical-center {
+  vertical-align: middle;
+}

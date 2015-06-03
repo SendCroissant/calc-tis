@@ -47,14 +47,14 @@ var Input = React.createClass({
     var inetValues = [];
 
     _.forEach(abonents, function (item, index) {
-      atsIndexes.push(<th className="text-center" key={index}>{index + 1}</th>);
+      atsIndexes.push(<th className="text-center vertical-center" key={index}>{index + 1}</th>);
       atsValues.push(<td className="text-center form-horizontal form-group-lg" key={index}>
         <label className="control-label">{item}</label>
       </td>);
     });
 
     _.forEach(inet, function (item, index) {
-      inetIndexes.push(<th className="text-center" key={index}>{index + 1}</th>);
+      inetIndexes.push(<th className="text-center vertical-center" key={index}>{index + 1}</th>);
       inetValues.push(<td className="text-center form-horizontal form-group-lg" key={index}>
         <label className="control-label">{item}</label>
       </td>);
@@ -69,22 +69,22 @@ var Input = React.createClass({
         <div className="panel-heading">Вхідні дані для розрахунку</div>
         <table className="table table-bordered">
           <tr className="info">
-            <th className="text-center" rowSpan={2}>Варіант</th>
-            <th className="text-center" colSpan={abonents.length}>
+            <th className="text-center vertical-center" rowSpan={2}>Варіант</th>
+            <th className="text-center vertical-center" colSpan={abonents.length}>
               Параметри АТС мережі <nobr>(кількість абонентів)</nobr>
             </th>
-            <th className="text-center" colSpan={inet.length}>
+            <th className="text-center vertical-center" colSpan={inet.length}>
               Швидкість для Інтернету <nobr>(Гбіт/с)</nobr>
             </th>
-            <th className="text-center">для СЗРО</th>
-            <th className="text-center" rowSpan={2}>
+            <th className="text-center vertical-center">для СЗРО</th>
+            <th className="text-center vertical-center" rowSpan={2}>
               Кількість мешканців в місті в <nobr>3…4</nobr> раз більше кількості абонентів
             </th>
           </tr>
           <tr className="info">
             {atsIndexes}
             {inetIndexes}
-            <th className="text-center" >m<sub>2</sub></th>
+            <th className="text-center vertical-center">m<sub>2</sub></th>
           </tr>
           <tr className="common-row">
             <td className="text-center">
@@ -99,7 +99,7 @@ var Input = React.createClass({
               <label className="control-label">{m2}</label>
             </td>
             <td className="text-center">
-              <input className="form-control" type="text" value={citiAbonCoef}
+              <input className="form-control text-center" type="text" value={citiAbonCoef}
                 onChange={this._onChangeCitiAbonCoef} />
             </td>
           </tr>
