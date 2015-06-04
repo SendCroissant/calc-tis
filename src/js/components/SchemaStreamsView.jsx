@@ -18,17 +18,18 @@ var SchemaStreamsView = React.createClass({
    * @return {object}
    */
   render: function() {
-    var rows = _.map(this.props.data, function (row, index) {
-      var rowContent = _.map(row, function (item, key) {
+    var data = this.props.data;
+    var rows = _.map(labels, function (_row, i) {
+      var row = data[i];
+      var rowContent = _.map(row, function (item, j) {
         if (isNaN(item))
-          return <td className="text-center active" key={key}></td>;
-        return <td className="text-center" key={key}>{item}</td>;
+          return <td className="text-center active" key={j}></td>;
+        return <td className="text-center" key={j}>{item}</td>;
       });
 
-      rowContent.unshift(<td className="text-center info" key="_">{labels[index]}</td>);
-      rowContent.push(<td className="text-center" key="sum">{_.sum(row)}</td>);
+      rowContent.unshift(<td className="text-center info" key="_">{labels[i]}</td>);
 
-      return <tr key={index}>{rowContent}</tr>;
+      return <tr key={i}>{rowContent}</tr>;
     });
 
     return (

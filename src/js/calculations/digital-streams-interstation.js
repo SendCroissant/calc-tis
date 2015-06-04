@@ -19,11 +19,15 @@ module.exports = function calculateDigitalStreamsInterstation (data, schema) {
   $[schema.amts] = 'amts';
 
   return _.map(schema.config, function (_row, i) {
-    return _.map(schema.config, function (_row, j) {
+    var row = _.map(schema.config, function (_row, j) {
       if (i === j) return NaN;
 
       return calc(schema.config[i], schema.config[j], data, $);
     });
+
+    row.push(_.sum(row));
+
+    return row;
   });
 };
 
