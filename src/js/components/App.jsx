@@ -10,6 +10,7 @@ var TableView = require('./TableView');
 var TableSummarizedView = require('./TableSummarizedView');
 var SchemaStreamsView = require('./SchemaStreamsView');
 var DigitalStreamsSegmentsView = require('./DigitalStreamsSegmentsView');
+var DijkstraCirclesView = require('./DijkstraCirclesView');
 
 var calculateLoadIntensities = require('../calculations/load-intensities');
 var calculatePhoneLoads = require('../calculations/phone-loads');
@@ -21,6 +22,7 @@ var calculateDigitalStreamsInet = require('../calculations/digital-streams-inet'
 var calculateDigitalStreamsReserved = require('../calculations/digital-streams-reserved');
 var calculateDigitalStreamsInterstation = require('../calculations/digital-streams-interstation');
 var calculateDigitalStreamsSegments = require('../calculations/digital-streams-segments');
+var calculateDijkstraCircles = require('../calculations/dijkstra-circles');
 
 /**
  * Retrieve the current Input data from the InputStore
@@ -29,7 +31,8 @@ function getInput() {
   return {
     currentVariant: InputStore.getCurrent(),
     data: InputStore.getCurrentVariant(),
-    variants: InputStore.getVariants()
+    variants: InputStore.getVariants(),
+    distances: InputStore.getDistances()
   };
 }
 
@@ -46,6 +49,7 @@ function getAppState () {
   $.digitalStreamsReserved = calculateDigitalStreamsReserved($.digitalStreamsInet);
   $.digitalStreamsInterstation = calculateDigitalStreamsInterstation($.digitalStreamsReserved, $.input.data.schema);
   $.digitalStreamsSegments = calculateDigitalStreamsSegments($.digitalStreamsInterstation);
+  $.dijkstraCircles = calculateDijkstraCircles($.input.distances);
 
   return $;
 }
@@ -97,6 +101,8 @@ var App = React.createClass({
         <SchemaStreamsView data={this.state.digitalStreamsInterstation} />
 
         <DigitalStreamsSegmentsView data={this.state.digitalStreamsSegments} />
+
+        <DijkstraCirclesView data={this.state.dijkstraCircles} />
       </div>
   	);
   },

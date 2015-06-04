@@ -75,8 +75,16 @@ InputStore.prototype.getCurrentVariant = function() {
 };
 
 /**
- * Get possible variants.
+ * Get distances.
  * @return {object}
+ */
+InputStore.prototype.getDistances = function() {
+  return this._distances;
+};
+
+/**
+ * Get possible variants.
+ * @return {array}
  */
 InputStore.prototype.getVariants = function() {
   return this._variants;
@@ -104,6 +112,18 @@ InputStore.prototype.readWindowData = function() {
   this._variants = _.map(Object.keys(this._params), Number);
   this._schemas = window.AppDataSchemas.data;
   this._picDescriptions = window.AppPicDescriptions.data;
+
+  var dist = window.AppDataDistances.data;
+
+  dist.unshift([]);
+
+  this._distances = _.map(dist, function (_row, i) {
+    return _.map(dist, function (_row, j) {
+      if (i === j) return NaN;
+      if (i < j) return dist[j][i];
+      return dist[i][j];
+    });
+  });
 };
 
 /**
