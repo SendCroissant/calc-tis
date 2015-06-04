@@ -9,6 +9,7 @@ var LoadIntensitiesView = require('./LoadIntensities');
 var TableView = require('./TableView');
 var TableSummarizedView = require('./TableSummarizedView');
 var SchemaStreamsView = require('./SchemaStreamsView');
+var DigitalStreamsSegmentsView = require('./DigitalStreamsSegmentsView');
 
 var calculateLoadIntensities = require('../calculations/load-intensities');
 var calculatePhoneLoads = require('../calculations/phone-loads');
@@ -19,6 +20,7 @@ var calculateDigitalStreams = require('../calculations/digital-streams');
 var calculateDigitalStreamsInet = require('../calculations/digital-streams-inet');
 var calculateDigitalStreamsReserved = require('../calculations/digital-streams-reserved');
 var calculateDigitalStreamsInterstation = require('../calculations/digital-streams-interstation');
+var calculateDigitalStreamsSegments = require('../calculations/digital-streams-segments');
 
 /**
  * Retrieve the current Input data from the InputStore
@@ -43,6 +45,7 @@ function getAppState () {
   $.digitalStreamsInet = calculateDigitalStreamsInet($.digitalStreams, $.input.data.inet);
   $.digitalStreamsReserved = calculateDigitalStreamsReserved($.digitalStreamsInet);
   $.digitalStreamsInterstation = calculateDigitalStreamsInterstation($.digitalStreamsReserved, $.input.data.schema);
+  $.digitalStreamsSegments = calculateDigitalStreamsSegments($.digitalStreamsInterstation);
 
   return $;
 }
@@ -92,6 +95,8 @@ var App = React.createClass({
           title="Матриця цифрових потоків всех Е1 с 30% запасом" />
 
         <SchemaStreamsView data={this.state.digitalStreamsInterstation} />
+
+        <DigitalStreamsSegmentsView data={this.state.digitalStreamsSegments} />
       </div>
   	);
   },
